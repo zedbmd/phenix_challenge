@@ -3,7 +3,7 @@ package com.phenix.model;
 import java.security.Timestamp;
 
 public class Transaction {
-	int id;
+	long id;
 	Timestamp dateTime;
 	String store;
 	int product;
@@ -17,7 +17,7 @@ public class Transaction {
 	 * @param product : id of the product
 	 * @param quantity : quantity sold of the product
 	 */
-	public Transaction(int id, Timestamp dateTime, String store, int product, int quantity) {
+	public Transaction(long id, Timestamp dateTime, String store, int product, int quantity) {
 		this.id = id;
 		this.dateTime = dateTime;
 		this.store = store;
