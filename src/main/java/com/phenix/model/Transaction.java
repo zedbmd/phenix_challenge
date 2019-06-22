@@ -57,7 +57,7 @@ public class Transaction implements Data {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 
 	 */

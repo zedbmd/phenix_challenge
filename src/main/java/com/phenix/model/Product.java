@@ -1,7 +1,6 @@
 package com.phenix.model;
 
 import java.util.InputMismatchException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Product implements Data{
@@ -48,7 +47,7 @@ public class Product implements Data{
 			System.out.println(line);
 		}
 	}
-	
+
 	public String getStore(String fileName) {
 		return fileName.substring(15, fileName.length() - 14);
 	}

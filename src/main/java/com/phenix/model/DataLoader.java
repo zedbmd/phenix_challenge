@@ -17,10 +17,10 @@ public final class DataLoader {
 	 * @return
 	 * @throws IOException 
 	 */
-	public static void loadFiles(String fileType, String filePath, String delimiter, List<Data> dataList)
+	public static void loadFiles(String fileType, String folderPath, String delimiter, List<Data> dataList)
 			throws IOException {
-		
-		final File folder = new File(filePath);
+
+		final File folder = new File(folderPath);
 		List<File> filesList = new ArrayList<>();
 
 		listFilesForFolder(folder, filesList);
@@ -65,7 +65,7 @@ public final class DataLoader {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		//System.out.println(records.toString());
 		return records;
 	}
