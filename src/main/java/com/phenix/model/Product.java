@@ -74,7 +74,7 @@ public class Product implements Data{
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCAL_DATE_FORMAT);
 		String dateText = fileName.substring(fileName.length() - 13, fileName.length() - 5);
 
-		return Date.valueOf(LocalDate.parse(dateText,formatter));
+		return Date.valueOf(LocalDate.parse(dateText, formatter));
 	}
 
 	/**
