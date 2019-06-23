@@ -85,8 +85,7 @@ public final class DataManager {
 
 		LocalDate fileDate = LocalDate.parse(dateText, formatter);
 		LocalDate date = extractionDate.toLocalDate();
-
-		return date.isAfter(date.minusDays(numberOfDays)) && fileDate.isBefore(date.plusDays(1));
+		return fileDate.isAfter(date.minusDays(numberOfDays)) && fileDate.isBefore(date.plusDays(1));
 	}
 
 	/**
