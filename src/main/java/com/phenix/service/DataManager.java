@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -25,14 +26,16 @@ public class DataManager {
 	private String transactionFolderPath;
 	private String outputPath;
 
-	public String getOutputPath() {
-		return outputPath;
-	}
 
-	public DataManager(String productFolderPath, String transactionFolderPath, String delimiter){
+	public DataManager(String productFolderPath, String transactionFolderPath, String outputPath, String delimiter){
 		this.delimiter = delimiter;
 		this.productFolderPath = productFolderPath;
 		this.transactionFolderPath = transactionFolderPath;
+		this.outputPath = outputPath;
+	}
+
+	public String getOutputPath() {
+		return outputPath;
 	}
 
 	public List<Product> loadProductFiles(Date extractionDate, int numberOfDays) {
@@ -183,6 +186,7 @@ public class DataManager {
 		}
 		return records;
 	}
+
 	/**
 	 * Saves data to the output file path up to maxDataSize
 	 * @param mapData
@@ -192,13 +196,40 @@ public class DataManager {
 	 * @throws FileNotFoundException
 	 */
 	public void saveTopProdcut(Map<Integer, Integer> mapData, String store, Date date, int maxDataSize) throws FileNotFoundException {
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateTimeFormatter.BASIC_ISO_DATE);
+		Map<Integer, Integer> sortedData = new LinkedHashMap<>();
+		mapData.entrySet().stream().sorted(Map.Entry.<Integer, Integer> comparingByValue().reversed())
+		.forEachOrdered(product -> sortedData.put(product.getKey(), product.getValue()));
+
+		String dateFormatted = date.toLocalDate().format(DateTimeFormatter.BASIC_ISO_DATE);
+		String outputFilePath = this.outputPath + "top_100_ventes_" + store + "_" + dateFormatted + ".data";
+
+		PrintWriter writer = new PrintWriter(new File(outputFilePath));
+		sortedData.entrySet().stream().limit(maxDataSize).forEach(data -> {
+			System.out.println(data.getKey() + delimiter + data.getValue() + "\r\n");
+			writer.write(data.getKey() + delimiter + data.getValue() + "\r\n");
+		});
+		writer.close();
+	}
+
+	/**
+	 * Saves data to the output file path up to maxDataSize
+	 * @param mapData
+	 * @param store
+	 * @param date
+	 * @param maxDataSize
+	 * @throws FileNotFoundException
+	 */
+	public void saveTopProdcutTurnOver(Map<Integer, Double> mapData, String store, Date date, int maxDataSize) throws FileNotFoundException {
+		Map<Integer, Double> sortedData= new LinkedHashMap<>();
+		mapData.entrySet().stream().sorted(Map.Entry.<Integer, Double> comparingByValue().reversed())
+		.forEachOrdered(product -> sortedData.put(product.getKey(), product.getValue()));
+
 		String dateFormatted = date.toLocalDate().format(DateTimeFormatter.BASIC_ISO_DATE);
 
-		String outputFilePath = outputPath + "top_100_ventes_" + store + "_" + dateFormatted + ".data";
+		String outputFilePath = this.outputPath + "top_100_ca_" + store + "_" + dateFormatted + ".data";
 		PrintWriter writer = new PrintWriter(new File(outputFilePath));
 
-		mapData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey() + delimiter + data.getValue() + "\r\n"));
+		sortedData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey() + delimiter + data.getValue() + "\r\n"));
 		writer.close();
 	}
 }

@@ -21,7 +21,7 @@ public class Main {
 		String transactionFolderPath = args[3];
 		String outputFilePath = args[4];
 
-		DataManager dataManager = new DataManager(productFolderPath, transactionFolderPath, DELIMITER);
+		DataManager dataManager = new DataManager(productFolderPath, transactionFolderPath, outputFilePath, DELIMITER);
 		List<Transaction> transactionFiles = dataManager.loadTransactionFiles(dayOfExtract, numberOfDays);
 
 		Map<String, List<Transaction>> lastDayStoresTransactions = transactionFiles.stream().filter(transaction -> transaction.date.equals(dayOfExtract))
