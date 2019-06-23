@@ -20,6 +20,7 @@ public class Main {
 		int numberOfDays = Integer.valueOf(args[1]);
 		String productFolderPath = args[2];
 		String transactionFolderPath = args[3];
+		String outputFilePath = args[4];
 		List<Data> productFiles = new ArrayList<>();
 
 		DataManager.loadFiles("product", productFolderPath, dayOfExtract, numberOfDays, DELIMITER, productFiles);
@@ -27,9 +28,9 @@ public class Main {
 
 		Map<String, List<Transaction>> lastDayStoresTransactions = transactionFiles.stream().filter(transaction -> transaction.date.equals(dayOfExtract))
 				.collect(Collectors.groupingBy(transaction -> transaction.store));
-		Map<String, List<Transaction>> allStoresTransactions = transactionFiles.stream().collect(Collectors.groupingBy(transaction -> transaction.store));
+		//Map<String, List<Transaction>> allStoresTransactions = transactionFiles.stream().collect(Collectors.groupingBy(transaction -> transaction.store));
 
-		TransactionAnalyser.searchTopProductSold(lastDayStoresTransactions, dayOfExtract);
+		TransactionAnalyser.searchTopProductSold(lastDayStoresTransactions, outputFilePath, dayOfExtract);
 		//TransactionAnalyser.searchTopProductTurnOver(allStoresTransactions);
 	}
 }

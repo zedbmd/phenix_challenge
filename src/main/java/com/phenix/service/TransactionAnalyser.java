@@ -11,9 +11,8 @@ import com.phenix.model.Transaction;
 
 public final class TransactionAnalyser {
 
-	public static void searchTopProductSold(Map<String, List<Transaction>> storeTransactions, Date date) {
+	public static void searchTopProductSold(Map<String, List<Transaction>> storeTransactions, String oututFilePath, Date date) {
 		HashMap<Integer, Integer> productQuantity = new HashMap<>();
-		String filePath =  "C:/Users/pc/Desktop/workspace/project/src/main/output/";
 		
 		storeTransactions.forEach((String store, List<Transaction> transactionList) -> {
 			transactionList.stream().filter(transaction -> transaction.quantity != 0).collect(Collectors.groupingBy(transaction -> transaction.product))
@@ -21,9 +20,9 @@ public final class TransactionAnalyser {
 				productQuantity.put(product, transactions.stream().mapToInt(transaction -> transaction.quantity).sum());
 			});
 			try {
-				DataManager.saveTopProdcut(productQuantity, store, date, filePath, 100);
+				DataManager.saveTopProdcut(productQuantity, store, date, oututFilePath, 100);
 			} catch (FileNotFoundException e) {
-				System.out.println("File not found" + filePath);
+				System.out.println("File not found" + oututFilePath);
 				e.printStackTrace();
 			}
 		});		
