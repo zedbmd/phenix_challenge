@@ -29,7 +29,7 @@ public class Main {
 				.collect(Collectors.groupingBy(transaction -> transaction.store));
 		Map<String, List<Transaction>> allStoresTransactions = transactionFiles.stream().collect(Collectors.groupingBy(transaction -> transaction.store));
 
-		TransactionAnalyser.searchTopProductSold(lastDayStoresTransactions);
-		TransactionAnalyser.searchTopProductTurnOver(allStoresTransactions);
+		TransactionAnalyser.searchTopProductSold(lastDayStoresTransactions, dayOfExtract);
+		//TransactionAnalyser.searchTopProductTurnOver(allStoresTransactions);
 	}
 }

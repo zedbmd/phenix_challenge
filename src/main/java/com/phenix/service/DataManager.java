@@ -159,10 +159,17 @@ public final class DataManager {
 	/**
 	 * Saves data to the output file path up to maxDataSize
 	 * @param mapData
-	 * @param outputFilePath
+	 * @param store
+	 * @param date
+	 * @param folderPath
+	 * @param maxDataSize
 	 * @throws FileNotFoundException
 	 */
-	public static void saveData(Map<String, String> mapData , String outputFilePath, int maxDataSize) throws FileNotFoundException {
+	public static void saveTopProdcut(Map<Integer, Integer> mapData, String store, Date date, String folderPath, int maxDataSize) throws FileNotFoundException {
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateTimeFormatter.BASIC_ISO_DATE);
+		String dateFormatted = date.toLocalDate().format(DateTimeFormatter.BASIC_ISO_DATE);
+
+		String outputFilePath = folderPath + "top_100_ventes_" + store + "_" + dateFormatted + ".data";
 		PrintWriter writer = new PrintWriter(new File(outputFilePath));
 
 		mapData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey() + "|" + data.getValue() + "\r\n"));
