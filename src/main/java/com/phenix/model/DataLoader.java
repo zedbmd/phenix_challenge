@@ -63,6 +63,7 @@ public final class DataLoader {
 				records.add(DataFactory.getData(fileType, fileName, scanner.nextLine(), delimiter));
 			}
 		} catch (FileNotFoundException e) {
+			System.err.println("File not found : " + file.getPath());
 			e.printStackTrace();
 		}
 

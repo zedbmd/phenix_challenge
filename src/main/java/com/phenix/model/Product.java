@@ -4,9 +4,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Product implements Data{
-	String store;
-	int product;
-	float price;
+	public String store;
+	public int product;
+	public float price;
 
 	/**
 	 * 

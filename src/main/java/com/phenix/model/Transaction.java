@@ -8,11 +8,11 @@ import java.util.Scanner;
 public class Transaction implements Data {
 	final static String LOCAL_TIME_FORMAT = "yyyyMMdd'T'HHmmssZ";
 
-	long id;
-	LocalDateTime dateTime;
-	String store;
-	int product;
-	int quantity;
+	public long id;
+	public LocalDateTime dateTime;
+	public String store;
+	public int product;
+	public int quantity;
 
 	/**
 	 * 
