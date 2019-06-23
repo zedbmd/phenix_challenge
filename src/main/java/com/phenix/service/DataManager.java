@@ -205,8 +205,8 @@ public class DataManager {
 
 		PrintWriter writer = new PrintWriter(new File(outputFilePath));
 		sortedData.entrySet().stream().limit(maxDataSize).forEach(data -> {
-			System.out.println(data.getKey() + delimiter + data.getValue() + "\r\n");
-			writer.write(data.getKey() + delimiter + data.getValue() + "\r\n");
+			System.out.println(data.getKey() + "|" + data.getValue() + "\r\n");
+			writer.write(data.getKey() + "|" + data.getValue() + "\r\n");
 		});
 		writer.close();
 	}
@@ -229,7 +229,7 @@ public class DataManager {
 		String outputFilePath = this.outputPath + "top_100_ca_" + store + "_" + dateFormatted + ".data";
 		PrintWriter writer = new PrintWriter(new File(outputFilePath));
 
-		sortedData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey() + delimiter + data.getValue() + "\r\n"));
+		sortedData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey().toString() + "|"  + data.getValue() + "\r\n"));
 		writer.close();
 	}
 }
