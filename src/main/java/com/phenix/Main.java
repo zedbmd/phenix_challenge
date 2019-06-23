@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.phenix.model.Data;
 import com.phenix.model.Transaction;
