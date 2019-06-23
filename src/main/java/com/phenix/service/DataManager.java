@@ -136,36 +136,36 @@ public final class DataManager {
 		return records;
 	}
 
-		/**
-		 * Load the transactions from a given file
-		 * @param fileName
-		 * @param file
-		 * @param delimiter
-		 * @return
-		 */
-		public static List<Transaction> loadTransactions(File file, String delimiter) {
-			List<Transaction> records = new ArrayList<>();
-			try (Scanner scanner = new Scanner(file);) {
-				while(scanner.hasNextLine()) {
-					records.add(new Transaction(scanner.nextLine(), delimiter));
-				}
-			} catch (FileNotFoundException e) {
-				System.err.println("File not found : " + file.getPath());
-				e.printStackTrace();
+	/**
+	 * Load the transactions from a given file
+	 * @param fileName
+	 * @param file
+	 * @param delimiter
+	 * @return
+	 */
+	public static List<Transaction> loadTransactions(File file, String delimiter) {
+		List<Transaction> records = new ArrayList<>();
+		try (Scanner scanner = new Scanner(file);) {
+			while(scanner.hasNextLine()) {
+				records.add(new Transaction(scanner.nextLine(), delimiter));
 			}
-			return records;
+		} catch (FileNotFoundException e) {
+			System.err.println("File not found : " + file.getPath());
+			e.printStackTrace();
 		}
-
-		/**
-		 * Saves data to the output file path up to maxDataSize
-		 * @param mapData
-		 * @param outputFilePath
-		 * @throws FileNotFoundException
-		 */
-		public static void saveData(Map<String, String> mapData , String outputFilePath, int maxDataSize) throws FileNotFoundException {
-			PrintWriter writer = new PrintWriter(new File(outputFilePath));
-
-			mapData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey() + "|" + data.getValue() + "\r\n"));
-			writer.close();
-		}
+		return records;
 	}
+
+	/**
+	 * Saves data to the output file path up to maxDataSize
+	 * @param mapData
+	 * @param outputFilePath
+	 * @throws FileNotFoundException
+	 */
+	public static void saveData(Map<String, String> mapData , String outputFilePath, int maxDataSize) throws FileNotFoundException {
+		PrintWriter writer = new PrintWriter(new File(outputFilePath));
+
+		mapData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey() + "|" + data.getValue() + "\r\n"));
+		writer.close();
+	}
+}
