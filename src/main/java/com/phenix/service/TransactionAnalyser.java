@@ -8,10 +8,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.phenix.model.Transaction;
+import com.phenix.service.DataManager;
 
 public final class TransactionAnalyser {
 
-	public static void searchTopProductSold(Map<String, List<Transaction>> storeTransactions, String oututFilePath, Date date) {
+	public static void searchTopProductSold(Map<String, List<Transaction>> storeTransactions, DataManager dataManager, Date date) {
 		HashMap<Integer, Integer> productQuantity = new HashMap<>();
 		
 		storeTransactions.forEach((String store, List<Transaction> transactionList) -> {
@@ -20,15 +21,15 @@ public final class TransactionAnalyser {
 				productQuantity.put(product, transactions.stream().mapToInt(transaction -> transaction.quantity).sum());
 			});
 			try {
-				DataManager.saveTopProdcut(productQuantity, store, date, oututFilePath, 100);
+				dataManager.saveTopProdcut(productQuantity, store, date, 100);
 			} catch (FileNotFoundException e) {
-				System.out.println("File not found" + oututFilePath);
+				System.out.println("File not found" + dataManager.getOutputPath());
 				e.printStackTrace();
 			}
 		});		
 	}
 
-	public static void searchTopProductTurnOver(Map<String, List<Transaction>> storeTransactions, String oututFilePath, Date date) {
+	public static void searchTopProductTurnOver(Map<String, List<Transaction>> storeTransactions, DataManager dataManager, Date date) {
 		System.out.println(storeTransactions);
 	}
 }

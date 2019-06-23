@@ -15,31 +15,41 @@ import java.util.stream.Collectors;
 
 import com.phenix.model.Data;
 import com.phenix.model.DataFactory;
+import com.phenix.model.Product;
 import com.phenix.model.Transaction;
 
-public final class DataManager {
+public class DataManager {
 
-	/**
-	 * 
-	 * @param fileType
-	 * @param filePath
-	 * @param delimiter
-	 * @return
-	 * @throws IOException 
-	 */
-	public static void loadFiles(String fileType, String folderPath, Date extractionDate, int numberOfDays, String delimiter, List<Data> dataList)
-			throws IOException {
+	private String delimiter;
+	private String productFolderPath;
+	private String transactionFolderPath;
+	private String outputPath;
 
-		final File folder = new File(folderPath);
+	public String getOutputPath() {
+		return outputPath;
+	}
+
+	public DataManager(String productFolderPath, String transactionFolderPath, String delimiter){
+		this.delimiter = delimiter;
+		this.productFolderPath = productFolderPath;
+		this.transactionFolderPath = transactionFolderPath;
+	}
+
+	public List<Product> loadProductFiles(Date extractionDate, int numberOfDays) {
+
+		final File folder = new File(this.productFolderPath);
 		List<File> filesList = new ArrayList<>();
+		List<Product> dataList = new ArrayList<Product>();
 
 		filesList = filterUneededFiles(listFilesForFolder(folder), extractionDate, numberOfDays);
 
 		for (File file : filesList) {
 			if (file.isFile()) {
-				dataList.addAll(loadData(fileType, file.getName(), file, delimiter));
+				dataList.addAll(loadProducts(file));
 			}
 		}
+
+		return dataList;
 	}
 
 	/**
@@ -50,9 +60,9 @@ public final class DataManager {
 	 * @return
 	 * @throws IOException 
 	 */
-	public static List<Transaction> loadTransactionFiles(String folderPath, Date extractionDate, int numberOfDays, String delimiter) {
+	public List<Transaction> loadTransactionFiles(Date extractionDate, int numberOfDays) {
 
-		final File folder = new File(folderPath);
+		final File folder = new File(this.transactionFolderPath);
 		List<File> filesList = new ArrayList<>();
 		List<Transaction> dataList = new ArrayList<Transaction>();
 
@@ -60,7 +70,7 @@ public final class DataManager {
 
 		for (File file : filesList) {
 			if (file.isFile()) {
-				dataList.addAll(loadTransactions(file, delimiter));
+				dataList.addAll(loadTransactions(file));
 			}
 		}
 
@@ -93,7 +103,7 @@ public final class DataManager {
 	 * @param numberOfDays
 	 * @return
 	 */
-	public static List<File> filterUneededFiles(List<File> filesList, Date extractionDate, int numberOfDays) {
+	public List<File> filterUneededFiles(List<File> filesList, Date extractionDate, int numberOfDays) {
 		return 	filesList.stream().filter(file -> keepFile(file.getName(), extractionDate, numberOfDays)).collect(Collectors.toList());
 	}
 
@@ -104,7 +114,7 @@ public final class DataManager {
 	 * @param numberOfDays
 	 * @return
 	 */
-	public static boolean keepFile(String fileName, Date extractionDate, int numberOfDays) {
+	public boolean keepFile(String fileName, Date extractionDate, int numberOfDays) {
 		String dateText = fileName.substring(fileName.length() - 13, fileName.length() - 5);
 
 		LocalDate fileDate = LocalDate.parse(dateText, DateTimeFormatter.BASIC_ISO_DATE);
@@ -120,7 +130,7 @@ public final class DataManager {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static List<Data> loadData(String fileType, String fileName, File file, String delimiter)
+	public List<Data> loadData(String fileType, String fileName, File file)
 			throws FileNotFoundException {
 		List<Data> records = new ArrayList<>();
 		try (Scanner scanner = new Scanner(file);) {
@@ -141,7 +151,7 @@ public final class DataManager {
 	 * @param delimiter
 	 * @return
 	 */
-	public static List<Transaction> loadTransactions(File file, String delimiter) {
+	public List<Transaction> loadTransactions(File file) {
 		List<Transaction> records = new ArrayList<>();
 		try (Scanner scanner = new Scanner(file);) {
 			while(scanner.hasNextLine()) {
@@ -155,22 +165,40 @@ public final class DataManager {
 	}
 
 	/**
+	 * Load the transactions from a given file
+	 * @param fileName
+	 * @param file
+	 * @param delimiter
+	 * @return
+	 */
+	public List<Product> loadProducts(File file) {
+		List<Product> records = new ArrayList<>();
+		try (Scanner scanner = new Scanner(file);) {
+			while(scanner.hasNextLine()) {
+				records.add(new Product(scanner.nextLine(), file.getName(), delimiter));
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("File not found : " + file.getPath());
+			e.printStackTrace();
+		}
+		return records;
+	}
+	/**
 	 * Saves data to the output file path up to maxDataSize
 	 * @param mapData
 	 * @param store
 	 * @param date
-	 * @param folderPath
 	 * @param maxDataSize
 	 * @throws FileNotFoundException
 	 */
-	public static void saveTopProdcut(Map<Integer, Integer> mapData, String store, Date date, String folderPath, int maxDataSize) throws FileNotFoundException {
+	public void saveTopProdcut(Map<Integer, Integer> mapData, String store, Date date, int maxDataSize) throws FileNotFoundException {
 		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateTimeFormatter.BASIC_ISO_DATE);
 		String dateFormatted = date.toLocalDate().format(DateTimeFormatter.BASIC_ISO_DATE);
 
-		String outputFilePath = folderPath + "top_100_ventes_" + store + "_" + dateFormatted + ".data";
+		String outputFilePath = outputPath + "top_100_ventes_" + store + "_" + dateFormatted + ".data";
 		PrintWriter writer = new PrintWriter(new File(outputFilePath));
 
-		mapData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey() + "|" + data.getValue() + "\r\n"));
+		mapData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey() + delimiter + data.getValue() + "\r\n"));
 		writer.close();
 	}
 }
