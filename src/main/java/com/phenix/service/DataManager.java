@@ -3,11 +3,13 @@ package com.phenix.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -109,5 +111,18 @@ public final class DataManager {
 
 		//System.out.println(records.toString());
 		return records;
+	}
+
+	/**
+	 * Saves data to the output file path up to maxDataSize
+	 * @param mapData
+	 * @param outputFilePath
+	 * @throws FileNotFoundException
+	 */
+	public static void saveData(Map<String, String> mapData , String outputFilePath, int maxDataSize) throws FileNotFoundException {
+		PrintWriter writer = new PrintWriter(new File(outputFilePath));
+
+		mapData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey() + "|" + data.getValue() + "\r\n"));
+		writer.close();
 	}
 }
