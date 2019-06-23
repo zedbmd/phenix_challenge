@@ -18,7 +18,6 @@ import com.phenix.model.DataFactory;
 import com.phenix.model.Transaction;
 
 public final class DataManager {
-	final static String LOCAL_DATE_FORMAT = "yyyyMMdd";
 
 	/**
 	 * 
@@ -106,10 +105,9 @@ public final class DataManager {
 	 * @return
 	 */
 	public static boolean keepFile(String fileName, Date extractionDate, int numberOfDays) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCAL_DATE_FORMAT);
 		String dateText = fileName.substring(fileName.length() - 13, fileName.length() - 5);
 
-		LocalDate fileDate = LocalDate.parse(dateText, formatter);
+		LocalDate fileDate = LocalDate.parse(dateText, DateTimeFormatter.BASIC_ISO_DATE);
 		LocalDate date = extractionDate.toLocalDate();
 		return fileDate.isAfter(date.minusDays(numberOfDays)) && fileDate.isBefore(date.plusDays(1));
 	}

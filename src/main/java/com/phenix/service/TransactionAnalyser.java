@@ -28,7 +28,7 @@ public final class TransactionAnalyser {
 		});		
 	}
 
-	public static void searchTopProductTurnOver(Map<String, List<Transaction>> storeTransactions) {
+	public static void searchTopProductTurnOver(Map<String, List<Transaction>> storeTransactions, String oututFilePath, Date date) {
 		System.out.println(storeTransactions);
 	}
 }

@@ -7,8 +7,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Product implements Data{
-	final static String LOCAL_DATE_FORMAT = "yyyyMMdd";
-
 	public String store;
 	public Date date;
 	public int product;
@@ -71,10 +69,9 @@ public class Product implements Data{
 	 * @return
 	 */
 	public Date getDate(String fileName) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCAL_DATE_FORMAT);
 		String dateText = fileName.substring(fileName.length() - 13, fileName.length() - 5);
 
-		return Date.valueOf(LocalDate.parse(dateText, formatter));
+		return Date.valueOf(LocalDate.parse(dateText, DateTimeFormatter.BASIC_ISO_DATE));
 	}
 
 	/**
