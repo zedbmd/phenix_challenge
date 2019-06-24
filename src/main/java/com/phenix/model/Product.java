@@ -10,7 +10,7 @@ public class Product implements Data{
 	public String store;
 	public Date date;
 	public int product;
-	public float price;
+	public double price;
 
 	/**
 	 * 
@@ -18,7 +18,7 @@ public class Product implements Data{
 	 * @param product : id of the product
 	 * @param price ; price of the product in the store in Euros
 	 */
-	public Product(String store, Date date, int product, float price) {
+	public Product(String store, Date date, int product, double price) {
 		this.store = store;
 		this.date = date;
 		this.product = product;
