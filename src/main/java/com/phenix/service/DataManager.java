@@ -201,7 +201,7 @@ public class DataManager {
 		.forEachOrdered(product -> sortedData.put(product.getKey(), product.getValue()));
 
 		String dateFormatted = date.toLocalDate().format(DateTimeFormatter.BASIC_ISO_DATE);
-		String outputFilePath = this.outputPath + "top_100_ventes_" + store + "_" + dateFormatted + ".data";
+		String outputFilePath = this.outputPath + "/top_100_ventes_" + store + "_" + dateFormatted + ".data";
 
 		PrintWriter writer = new PrintWriter(new File(outputFilePath));
 		sortedData.entrySet().stream().limit(maxDataSize).forEach(data -> {
@@ -225,7 +225,7 @@ public class DataManager {
 
 		String dateFormatted = date.toLocalDate().format(DateTimeFormatter.BASIC_ISO_DATE);
 
-		String outputFilePath = this.outputPath + "top_100_ca_" + store + "_" + dateFormatted + ".data";
+		String outputFilePath = this.outputPath + "/top_100_ca_" + store + "_" + dateFormatted + ".data";
 		PrintWriter writer = new PrintWriter(new File(outputFilePath));
 
 		sortedData.entrySet().stream().limit(maxDataSize).forEach(data -> writer.write(data.getKey().toString() + "|"  + data.getValue() + "\r\n"));
