@@ -59,9 +59,13 @@ public final class TransactionAnalyser {
 
 				transactions.stream().filter(p -> p.product != 0).collect(Collectors.groupingBy(transaction -> transaction.product))
 				.forEach((Integer product, List<Transaction> transaction) -> {
-					Product prod = storeProdudctListOfDay.stream().filter(p -> p.product == product).collect(Collectors.groupingBy(p -> p.product)).get(product).get(0);
-					double price = prod.price;
-					productTurnOver.put(product, transactions.stream().mapToDouble(t -> t.quantity * price).sum());
+					try {
+						Product prod = storeProdudctListOfDay.stream().filter(p -> p.product == product).collect(Collectors.groupingBy(p -> p.product)).get(product).get(0);
+						productTurnOver.put(product, transactions.stream().mapToDouble(t -> t.quantity * prod.price).sum());
+					} catch (NullPointerException e) {
+						System.err.println("Product: '" + product + "' Not found in Store : '" + store + "'");
+						e.printStackTrace();
+					}
 				});
 			});
 			try {
