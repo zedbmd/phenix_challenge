@@ -79,7 +79,7 @@ public class Main {
 		maxStores = Integer.valueOf(prop.getProperty("max.stores"));
 		maxValues = Integer.valueOf(prop.getProperty("max.values"));
 		outputFilePath = prop.getProperty("output.file.path");
-		dataGenerationFolder = prop.getProperty("data.generation.folder)");
+		dataGenerationFolder = prop.getProperty("data.generation.folder");
 
 		productFolderPath = dataGenerationFolder + "/product/"; 
 		transactionFolderPath = dataGenerationFolder + "/transaction/"; 
