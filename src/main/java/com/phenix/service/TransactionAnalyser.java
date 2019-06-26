@@ -12,7 +12,7 @@ import com.phenix.model.Product;
 import com.phenix.model.Transaction;
 import com.phenix.service.DataManager;
 
-public final class TransactionAnalyser {
+public class TransactionAnalyser {
 
 	/**
 	 * Search top 100 product per store in the last day, and store the result in a file
