@@ -46,6 +46,14 @@ This package facilitates the use of the tool and mostly the code upgrade in case
  - **TransactionAnalyser** : `Class` Makes some analysis starting from the loaded Transaction & Product data, implementing two methods `searchTopProductSold()` and `searchTopProductTurnOver()`.
  
 ## How it works
+
+### Code Compiling
+In eclipse Run maven celan install in order to compile the code and generate the needed JAR for the execution.
+
+### Project Running
+In eclipse Run the project with a single argument : the path for the application config `src/main/resources/application.config`. Result will be stored in the `output.file.path` as explained in the next section. 
+
+### Project configuration 
 All configs can be modified in `src/main/resources/application.config` (these part needs improvement, configs shouldn't be hard coded but radher stored in this config file).
 
  - day.of.extract : date to be used as a baseline for the analysis
